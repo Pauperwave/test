@@ -17,6 +17,183 @@ published: true
 | Data | 6 Settembre 2026 |
 | Struttura del torneo | 7 Rounds of Swiss + Single Elimination Top 8 |
 
+Note: Splitted Final
+
+::magic-decklist
+---
+name: Elves
+player: Giacomo Stefanello
+placement: Finalist Split
+headerGradient: monogreen
+---
+Creatures
+2 Elvish Mystic
+3 Fyndhorn Elves
+4 Llanowar Elves
+4 Quirion Ranger
+4 Masked Vandal
+4 Priest of Titania
+1 Wellwisher
+4 Timberwatch Elf
+4 Avenging Hunter
+1 Sagu Wildling // Roost Seek
+4 Generous Ent
+4 Nyxborn Hydra
+
+Sorceries
+4 Winding Way
+4 Lead the Stampede
+
+Lands
+1 Gingerbread Cabin
+12 Forest
+
+Sideboard
+4 Faerie Macabre
+3 Spinewoods Paladin
+3 Vitu-Ghazi Inspector
+2 Viridian Longbow
+2 Webweaver Changeling
+1 Wellwisher
+::
+
+::magic-decklist
+---
+name: Jund
+player: Lorenzo Limongiello
+placement: Final Split
+headerGradient: jund
+---
+Creatures
+3 Krark-Clan Shaman
+4 Refurbished Familiar
+4 Writhing Chrysalis
+1 Nyxborn Hydra
+
+Instants
+1 Toxin Analysis
+4 Cast Down
+2 Eviscerator's Insight
+4 Fanatical Offering
+1 Pulse of Murasa
+1 Snuff Out
+
+Sorceries
+4 Cleansing Wildfire
+
+Artifacts
+1 Blood Fountain
+3 Nihil Spellbomb
+4 Ichor Wellspring
+2 Lembas
+
+Enchantment
+1 Makeshift Munitions
+
+Lands
+4 Drossforge Bridge
+4 Slagwoods Bridge
+2 Vault of Whispers
+4 Twisted Landscape
+3 Snow-Covered Swamp
+2 Snow-Covered Forest
+1 Snow-Covered Mountain
+
+Sideboard
+4 Weather the Storm
+3 Duress
+2 Breath Weapon
+2 Pyroblast
+2 Troublemaker Ouphe
+1 Ancient Grudge
+1 Terminate
+::
+
+::magic-decklist
+---
+name: 4c Affinity
+player: Luca Zacchello
+placement: Top 4
+headerGradient: jeskai
+---
+Creatures
+4 Glint Hawk
+4 Refurbished Familiar
+3 Utrom Monitor
+4 Myr Enforcer
+
+Instants
+4 Galvanic Blast
+4 Reckoner's Bargain
+
+Sorceries
+4 Thoughtcast
+
+Artifacts
+2 Blood Fountain
+4 Giant's Boulder
+2 Nihil Spellbomb
+1 Sewer-veillance Cam
+4 Cryogen Relic
+
+Enchantment
+1 Makeshift Munitions
+
+Lands
+3 Mistvault Bridge
+1 Razortide Bridge
+4 Great Furnace
+4 Seat of the Synod
+4 Vault of Whispers
+3 Ancient Den
+
+Sideboard
+4 Hydroblast
+3 Red Elemental Blast
+1 Pyroblast
+2 Envelop
+2 Extract a Confession
+2 Krark-Clan Shaman
+1 Breath Weapon
+::
+
+::magic-decklist
+---
+name: U Terror
+player: Federico Fabbrini
+placement: Top 4
+headerGradient: monoblue
+---
+Creatures
+4 Delver of Secrets // Insectile Aberration
+4 Cryptic Serpent
+4 Tolarian Terror
+
+Instants
+4 Brainstorm
+2 Dispel
+4 Gut Shot
+4 Mental Note
+2 Spell Pierce
+4 Thought Scour
+4 Counterspell
+
+Sorceries
+2 Artful Dodge
+2 Sleep of the Dead
+4 Lórien Revealed
+
+Lands
+16 Island
+
+Sideboard
+4 Hydroblast
+3 Blue Elemental Blast
+4 Steel Sabotage
+2 Annul
+2 Envelop
+::
+
 ::magic-decklist
 ---
 name: Monster Tron
@@ -59,129 +236,6 @@ Sideboard
 3 Faerie Macabre
 2 Ancient Grudge
 2 Coalition Honor Guard
-::
-
-::magic-decklist
----
-name: Elves
-player: Giacomo Stefanello
-placement: Top 8
-headerGradient: monogreen
----
-Creatures
-2 Elvish Mystic
-3 Fyndhorn Elves
-4 Llanowar Elves
-4 Quirion Ranger
-4 Masked Vandal
-4 Priest of Titania
-1 Wellwisher
-4 Timberwatch Elf
-4 Avenging Hunter
-1 Sagu Wildling // Roost Seek
-4 Generous Ent
-4 Nyxborn Hydra
-
-Sorceries
-4 Winding Way
-4 Lead the Stampede
-
-Lands
-1 Gingerbread Cabin
-12 Forest
-
-Sideboard
-4 Faerie Macabre
-3 Spinewoods Paladin
-3 Vitu-Ghazi Inspector
-2 Viridian Longbow
-2 Webweaver Changeling
-1 Wellwisher
-::
-
-::magic-decklist
----
-name: U Terror
-player: Federico Fabbrini
-placement: Top 8
-headerGradient: monoblue
----
-Creatures
-4 Delver of Secrets // Insectile Aberration
-4 Cryptic Serpent
-4 Tolarian Terror
-
-Instants
-4 Brainstorm
-2 Dispel
-4 Gut Shot
-4 Mental Note
-2 Spell Pierce
-4 Thought Scour
-4 Counterspell
-
-Sorceries
-2 Artful Dodge
-2 Sleep of the Dead
-4 Lórien Revealed
-
-Lands
-16 Island
-
-Sideboard
-4 Hydroblast
-3 Blue Elemental Blast
-4 Steel Sabotage
-2 Annul
-2 Envelop
-::
-
-::magic-decklist
----
-name: 4c Affinity
-player: Luca Zacchello
-placement: Top 8
-headerGradient: jeskai
----
-Creatures
-4 Glint Hawk
-4 Refurbished Familiar
-3 Utrom Monitor
-4 Myr Enforcer
-
-Instants
-4 Galvanic Blast
-4 Reckoner's Bargain
-
-Sorceries
-4 Thoughtcast
-
-Artifacts
-2 Blood Fountain
-4 Giant's Boulder
-2 Nihil Spellbomb
-1 Sewer-veillance Cam
-4 Cryogen Relic
-
-Enchantment
-1 Makeshift Munitions
-
-Lands
-3 Mistvault Bridge
-1 Razortide Bridge
-4 Great Furnace
-4 Seat of the Synod
-4 Vault of Whispers
-3 Ancient Den
-
-Sideboard
-4 Hydroblast
-3 Red Elemental Blast
-1 Pyroblast
-2 Envelop
-2 Extract a Confession
-2 Krark-Clan Shaman
-1 Breath Weapon
 ::
 
 ::magic-decklist
@@ -314,56 +368,4 @@ Sideboard
 2 Pyroblast
 1 Flaring Pain
 1 Relic of Progenitus
-::
-
-::magic-decklist
----
-name: Jund
-player: Lorenzo Limongiello
-placement: Top 8
-headerGradient: jund
----
-Creatures
-3 Krark-Clan Shaman
-4 Refurbished Familiar
-4 Writhing Chrysalis
-1 Nyxborn Hydra
-
-Instants
-1 Toxin Analysis
-4 Cast Down
-2 Eviscerator's Insight
-4 Fanatical Offering
-1 Pulse of Murasa
-1 Snuff Out
-
-Sorceries
-4 Cleansing Wildfire
-
-Artifacts
-1 Blood Fountain
-3 Nihil Spellbomb
-4 Ichor Wellspring
-2 Lembas
-
-Enchantment
-1 Makeshift Munitions
-
-Lands
-4 Drossforge Bridge
-4 Slagwoods Bridge
-2 Vault of Whispers
-4 Twisted Landscape
-3 Snow-Covered Swamp
-2 Snow-Covered Forest
-1 Snow-Covered Mountain
-
-Sideboard
-4 Weather the Storm
-3 Duress
-2 Breath Weapon
-2 Pyroblast
-2 Troublemaker Ouphe
-1 Ancient Grudge
-1 Terminate
 ::
