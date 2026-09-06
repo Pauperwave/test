@@ -115,7 +115,6 @@ Instants
 4 Brainstorm
 2 Dispel
 4 Gut Shot
-16 Isolate
 4 Mental Note
 2 Spell Pierce
 4 Thought Scour
@@ -125,6 +124,9 @@ Sorceries
 2 Artful Dodge
 2 Sleep of the Dead
 4 Lórien Revealed
+
+Lands
+16 Island
 
 Sideboard
 4 Hydroblast
