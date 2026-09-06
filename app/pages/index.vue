@@ -113,6 +113,8 @@ useSchemaOrg([
         :authors-map="authorsMap"
       />
 
+      <MigrationNotice class="mb-6" />
+
       <section>
         <div class="flex items-end justify-between gap-3 mb-5">
           <div>

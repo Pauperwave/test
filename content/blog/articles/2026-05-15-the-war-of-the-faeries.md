@@ -1,6 +1,7 @@
 ---
 title: "The War of the Faeries"
 description: ""
+language: english
 tags:
   - Meta
 date: 2026-05-15

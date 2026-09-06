@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cardTransform, cardFilter } from '~/utils/magic-cards-layout'
+import { fanCardTransform, cardFilter, handPosition, handZIndex } from '~/utils/magic-cards-layout'
 
 interface Props {
   cards: string[]
@@ -19,7 +19,24 @@ const {
   layout = 'fan'
 } = defineProps<Props>()
 
+const MAX_CARDS = 7
+
+if (cards.length > MAX_CARDS) {
+  console.warn(`magic-cards: received ${cards.length} cards, showing only the first ${MAX_CARDS}`)
+}
+
+const visibleCards = computed(() => cards.slice(0, MAX_CARDS))
+
+// Positioning (translate/z-index) is pure CSS for hand — see the `.hand-*` rules below and
+// handPosition/handZIndex in magic-cards-layout.ts for why. hoveredIndex is only needed to
+// dim the *other* cards (a filter change, which doesn't move anything, so it can't cause
+// the hover flicker a position change would).
 const hoveredIndex = ref<number | null>(null)
+
+function handCardStyle(idx: number, total: number) {
+  const { x, y } = handPosition(idx, total)
+  return { '--hand-x': `${x}%`, '--hand-y': `${y}%`, filter: cardFilter(idx, hoveredIndex.value) }
+}
 </script>
 
 <template>
@@ -30,7 +47,7 @@ const hoveredIndex = ref<number | null>(null)
     regardless of which config the page author chose. -->
     <div class="md:hidden flex gap-4 overflow-x-auto justify-center mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
       <MagicCard
-        v-for="card in cards"
+        v-for="card in visibleCards"
         :key="card"
         :card="card"
         class="shrink-0"
@@ -49,17 +66,28 @@ const hoveredIndex = ref<number | null>(null)
       :class="layout === 'hand' ? 'min-h-125 lg:min-h-150' : 'min-h-75 lg:min-h-90'"
     >
       <div
-        v-for="(card, idx) in cards"
+        v-for="(card, idx) in visibleCards"
         :key="card"
-        class="absolute left-1/2 top-6 -translate-x-1/2"
-        :style="{ zIndex: idx }"
+        class="absolute left-1/2 top-6 -translate-x-1/2 card-slot"
+        :class="layout === 'hand' ? 'hand-slot' : undefined"
+        :style="layout === 'hand' ? { '--hand-z': handZIndex(idx, visibleCards.length) } : undefined"
       >
         <MagicCard
+          v-if="layout === 'hand'"
+          :card="card"
+          img-class="w-48 lg:w-56"
+          class="hand-card"
+          :style="handCardStyle(idx, visibleCards.length)"
+          @mouseenter="hoveredIndex = idx"
+          @mouseleave="hoveredIndex = null"
+        />
+        <MagicCard
+          v-else
           :card="card"
           img-class="w-48 lg:w-56"
           class="fan-card"
           :style="{
-            transform: cardTransform(idx, cards.length, layout, arch, hoveredIndex),
+            transform: fanCardTransform(idx, visibleCards.length, arch, hoveredIndex),
             filter: cardFilter(idx, hoveredIndex)
           }"
           @mouseenter="hoveredIndex = idx"
@@ -77,6 +105,15 @@ const hoveredIndex = ref<number | null>(null)
 </template>
 
 <style scoped>
+/* Matches magic.wizards.com's own wrapper (`height: 0px`): without this, each card's
+   untransformed anchor box (all 5 sit at the identical anchor point) has its own real,
+   hoverable area, which can intercept hover meant for a neighboring card that has been
+   moved elsewhere via transform. Zero height means only the actual (transformed) card
+   content is ever hoverable. */
+.card-slot {
+  height: 0;
+}
+
 .fan-card {
   /* Shared distant pivot (~5.83x the card's own height below it), matching the
      magic.wizards.com fan's transform-origin: 50% 2168.18px on a 372px-tall card. */
@@ -84,5 +121,26 @@ const hoveredIndex = ref<number | null>(null)
   transition:
     transform 0.4s ease,
     filter 0.4s ease;
+}
+
+/* Hand layout: pure CSS hover, matching magic.wizards.com's own implementation for its one
+   real hand-config article — no `hoveredIndex` involved, see magic-cards-layout.ts. */
+.hand-slot {
+  z-index: var(--hand-z, 0);
+}
+
+.hand-slot:hover {
+  z-index: 2;
+}
+
+.hand-card {
+  transform: translateX(var(--hand-x)) translateY(var(--hand-y));
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+}
+
+.hand-card:hover {
+  transform: translateX(var(--hand-x)) translateY(calc(var(--hand-y) - 10%));
 }
 </style>

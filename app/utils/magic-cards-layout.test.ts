@@ -3,8 +3,7 @@ import {
   fanRotation,
   fanCardTransform,
   handPosition,
-  handCardTransform,
-  cardTransform,
+  handZIndex,
   cardFilter
 } from './magic-cards-layout'
 
@@ -61,6 +60,16 @@ describe('magic-cards layout', () => {
       expect(fanCardTransform(4, 5, 20.5, 0)).toBe('rotate(8.815deg) translateX(15%)')
     })
 
+    it('matches verified hover values for hovering a middle-left card (index 1 of 5)', () => {
+      // Captured directly from magic.wizards.com/en/news/making-magic while hovering
+      // "Guide of Souls" in a 5-card fan (index 1).
+      expect(fanCardTransform(0, 5, 20.5, 1)).toBe('rotate(-8.815deg) translateY(0px)')
+      expect(fanCardTransform(1, 5, 20.5, 1)).toBe('rotate(-4.4075deg) translateY(-18px)')
+      expectRotateTransform(fanCardTransform(2, 5, 20.5, 1), 2.25, ' translateX(15%)')
+      expectRotateTransform(fanCardTransform(3, 5, 20.5, 1), 5.9075, ' translateX(15%)')
+      expectRotateTransform(fanCardTransform(4, 5, 20.5, 1), 9.565, ' translateX(15%)')
+    })
+
     it('matches verified hover values for the center card hovered (index 2 of 5)', () => {
       expect(fanCardTransform(0, 5, 20.5, 2)).toBe('rotate(-8.815deg) translateY(0px)')
       expect(fanCardTransform(1, 5, 20.5, 2)).toBe('rotate(-4.4075deg) translateY(0px)')
@@ -78,48 +87,6 @@ describe('magic-cards layout', () => {
     })
   })
 
-  describe('handPosition', () => {
-    it('matches the two verified live data points (index 0 and 1 of a 5-card hand)', () => {
-      expect(handPosition(0, 5)).toEqual({ x: -120, y: 25 })
-      expect(handPosition(1, 5)).toEqual({ x: -60, y: 45 })
-    })
-
-    it('is symmetric around the center card', () => {
-      const center = handPosition(2, 5)
-      const left = handPosition(0, 5)
-      const right = handPosition(4, 5)
-      expect(center.x).toBe(0)
-      expect(left.x).toBe(-right.x)
-      expect(left.y).toBe(right.y)
-    })
-
-    it('peaks (largest y) at the center card', () => {
-      const ys = [0, 1, 2, 3, 4].map(i => handPosition(i, 5).y)
-      expect(Math.max(...ys)).toBe(ys[2])
-    })
-  })
-
-  describe('handCardTransform', () => {
-    it('applies the verified -10 percentage point lift on hover (index 0 of 5)', () => {
-      expect(handCardTransform(0, 5, null)).toBe('translateX(-120%) translateY(25%)')
-      expect(handCardTransform(0, 5, 0)).toBe('translateX(-120%) translateY(15%)')
-    })
-
-    it('does not lift non-hovered cards', () => {
-      expect(handCardTransform(1, 5, 0)).toBe('translateX(-60%) translateY(45%)')
-    })
-  })
-
-  describe('cardTransform (layout dispatch)', () => {
-    it('delegates to fan formula by default', () => {
-      expect(cardTransform(0, 5, 'fan', 20.5, null)).toBe(fanCardTransform(0, 5, 20.5, null))
-    })
-
-    it('delegates to hand formula when layout is hand', () => {
-      expect(cardTransform(0, 5, 'hand', 20.5, null)).toBe(handCardTransform(0, 5, null))
-    })
-  })
-
   describe('cardFilter', () => {
     it('is none when nothing is hovered', () => {
       expect(cardFilter(0, null)).toBe('none')
@@ -129,7 +96,7 @@ describe('magic-cards layout', () => {
       expect(cardFilter(2, 2)).toBe('none')
     })
 
-    it('fades brightness by distance from the hovered card, not a flat grayscale', () => {
+    it('fades brightness by distance from the hovered card — adjacent cards end up brighter than normal, matching the live site', () => {
       const brightnessOf = (filter: string) => Number(filter.match(/brightness\(([^)]+)\)/)![1])
       expect(cardFilter(1, 0)).toMatch(/^blur\(0\.5px\) grayscale\(0\.8\) brightness\(/)
       expect(brightnessOf(cardFilter(1, 0))).toBeCloseTo(1.04)
@@ -141,6 +108,38 @@ describe('magic-cards layout', () => {
     it('is symmetric around the hovered card', () => {
       expect(cardFilter(0, 2)).toBe(cardFilter(4, 2))
       expect(cardFilter(1, 2)).toBe(cardFilter(3, 2))
+    })
+  })
+
+  describe('handPosition', () => {
+    it('matches the verified 5-card hand exactly (read from the live stylesheet)', () => {
+      expect(handPosition(0, 5)).toEqual({ x: -120, y: 25 })
+      expect(handPosition(1, 5)).toEqual({ x: -60, y: 45 })
+      expect(handPosition(2, 5)).toEqual({ x: 0, y: 10 })
+      expect(handPosition(3, 5)).toEqual({ x: 60, y: 45 })
+      expect(handPosition(4, 5)).toEqual({ x: 120, y: 25 })
+    })
+
+    it('falls back to a flat, unarced Y for unverified card counts', () => {
+      expect(handPosition(0, 3).y).toBe(30)
+      expect(handPosition(1, 3).y).toBe(30)
+      expect(handPosition(2, 3).y).toBe(30)
+    })
+
+    it('spreads X in steps of 60% of the card width, symmetric around the center', () => {
+      expect(handPosition(0, 5).x).toBe(-120)
+      expect(handPosition(4, 5).x).toBe(120)
+      expect(handPosition(2, 5).x).toBe(0)
+    })
+  })
+
+  describe('handZIndex', () => {
+    it('elevates only the two cards immediately adjacent to the center (verified for 5 cards)', () => {
+      expect(handZIndex(0, 5)).toBe(0)
+      expect(handZIndex(1, 5)).toBe(1)
+      expect(handZIndex(2, 5)).toBe(0)
+      expect(handZIndex(3, 5)).toBe(1)
+      expect(handZIndex(4, 5)).toBe(0)
     })
   })
 })

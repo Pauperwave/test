@@ -58,7 +58,7 @@ Competitive deck lists with card breakdowns.
 - Budget alternatives
 - Deck techs
 
-**Example:** `2026-01-14-thesideralwolf-2.md`
+**Example:** `2023-06-19-paupergeddon-pisa-2023.md`
 
 ---
 
@@ -72,7 +72,7 @@ Tournament reports and event coverage.
 - Match reports
 - Meta snapshots
 
-**Example:** `2025-12-09-paupergeddon-lucca-winter-2025.md`
+**Example:** `2025-12-09-edoardo-bardi-paupergeddon-lucca-winter-2025.md`
 
 ---
 
@@ -104,6 +104,7 @@ date: YYYY-MM-DD           # Publication date (ISO format) — required
 author: string | string[]  # Name(s) matching content/authors/*.yml — required
 thumbnail: string           # Hero image path, use an alias (see Images) — required
 tags: string[]              # Optional, defaults to []
+language: "italiano" | "english"  # Optional, defaults to "italiano" — set to "english" for non-Italian articles
 published: boolean          # Optional, defaults to false (hidden)
 ---
 ```
@@ -132,7 +133,7 @@ published: true
 #### `title`
 - **Length:** 40-70 characters (optimal for SEO)
 - **Format:** Use title case
-- **Language:** Italian (primary audience)
+- **Language:** Italian by default (primary audience); if the article is written in English, set `language: english` in frontmatter so it's labeled correctly (see `language` below)
 - **Keywords:** Include primary keyword for SEO
 
 **✅ Good:**
@@ -250,19 +251,33 @@ L'elenco "Common Tags" sopra è indicativo (archetipi, colori, argomenti). In pr
 
 | Tag | Occorrenze | Uso |
 |---|---|---|
-| `Top 8` | 77 | Piazzamento in un torneo (top 8) |
-| `League` | 35 | Risultato/report di una league su Magic Online |
-| `IPT` | 28 | Torneo della serie IPT (es. "IPT Amsterdam") |
-| `Set Review` | 22 | Analisi di un nuovo set/espansione |
-| `Paupergeddon` | 18 | Evento Paupergeddon (torneo dal vivo) |
-| `Meta` | 13 | Analisi del metagame |
-| `Top 16` | 6 | Piazzamento in un torneo (top 16) |
+| `Top 8` | 82 | Piazzamento in un torneo (top 8) |
+| `League` | 38 | Risultato/report di una league su Magic Online |
+| `IPT` | 31 | Torneo della serie IPT (es. "IPT Amsterdam") |
+| `Paupergeddon` | 29 | Evento Paupergeddon (torneo dal vivo) |
+| `Set Review` | 23 | Analisi di un nuovo set/espansione |
+| `Meta` | 20 | Analisi del metagame |
+| `Top 16` | 7 | Piazzamento in un torneo (top 16) |
+| `Top 4` | 3 | Piazzamento in un torneo (top 4) |
+| `Data Analysis` | 3 | Contenuto basato su analisi statistiche/probabilità |
 | `Top 32` | 2 | Piazzamento in un torneo (top 32) |
-| `Top 4` | 1 | Piazzamento in un torneo (top 4) |
 | `PTE` | 1 | Torneo della serie PTE |
 | `Game Mechanics` | 1 | Contenuto su regole/meccaniche di gioco |
+| `Final` | 1 | Piazzamento in finale |
 
-> Nota: questo elenco riflette lo stato di `content/blog/` al momento della stesura (file placeholder/template esclusi) — se aggiungi molti tag nuovi, vale la pena rigenerarlo invece di fidarsi ciecamente.
+> Nota: questo elenco riflette lo stato di `content/blog/` al 2026-09-01 (file placeholder/template esclusi, incluso `Top X` nel template report che non è un tag reale) — se aggiungi molti tag nuovi, vale la pena rigenerarlo invece di fidarsi ciecamente.
+
+---
+
+#### `language`
+
+- **Values:** `italiano` (default) or `english`
+- **Purpose:** labels non-Italian articles with an "English" badge on their article card; doesn't affect routing or the card lookup database
+- Only set it for articles actually written in English — leave it unset for Italian content
+
+```yaml
+language: english
+```
 
 ---
 
@@ -359,12 +374,12 @@ meta-analysis-diagram.jpg
 Controls article visibility.
 
 ```yaml
-published: true  # Hidden from production, visible in dev (default)
-published: true   # Published and visible
+published: false  # Hidden from production, visible in dev (default)
+published: true    # Published and visible
 ```
 
 **Usage:**
-- Set `published: true` while writing (there is no necessity to commit unfinished articles)
+- Leave `published: false` (or omit it) while writing — there is no necessity to commit unfinished articles
 - Change to `published: true` when ready to publish
 - Not published articles are filtered in production builds
 
@@ -530,10 +545,10 @@ pnpm dev
 
 ```yaml
 # While writing
-published: true
+published: false
 
 # When ready to publish
-published: false
+published: true
 ```
 
 ---
@@ -639,19 +654,18 @@ Sideboard
 
 ### Card Database Integration
 
-The project includes a SQLite card database from Scryfall with filtered Pauper-legal cards.
+The project includes a SQLite card database (`server/database/cards.db`) built from Scryfall's bulk data, filtered to Pauper-legal and banned cards. There is no runtime API route for it — `server/api/` is empty.
 
-**Usage in server API:**
+Card lookups instead happen at **build time**, inside the content-transformer modules (`modules/card-tooltip-transformer.ts` for `[[Card Name]]`, `modules/decklist-transformer.ts` for `::magic-decklist` bodies), which call `getCardByName`/`getCardsByNames` from `server/utils/card-database.ts` directly:
+
 ```typescript
-// server/api/cards.get.ts
-import { searchCards } from '~/server/utils/card-database'
+// server/utils/card-database.ts
+import { getCardByName } from '~/server/utils/card-database'
 
-export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
-  const cards = await searchCards(query.name as string)
-  return cards
-})
+const card = await getCardByName('Lightning Bolt')
 ```
+
+If a card isn't in the local database (e.g. a set released after the last `pnpm run download-cards`), the transformers fall back to a live Scryfall API lookup.
 
 ---
 

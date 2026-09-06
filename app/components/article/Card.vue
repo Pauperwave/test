@@ -97,6 +97,14 @@ const cardVariantClasses = computed(() =>
           {{ categoryLabel }}
         </UBadge>
         <UBadge
+          v-if="article.language === 'english'"
+          :key="`${article.path}-language`"
+          color="neutral"
+          variant="soft"
+        >
+          English
+        </UBadge>
+        <UBadge
           v-if="isLeagueArticle"
           :key="`${article.path}-league`"
           color="info"

@@ -1,6 +1,6 @@
 # Pauperwave Blog
 
-The blog of [Pauperwave](https://blog.pauperwave.org), an Italian non-profit dedicated to Magic: The Gathering's Pauper format. Articles, tutorials, decklists, tournament reports, and set spoiler analysis, all in Italian.
+The blog of [Pauperwave](https://blog.pauperwave.org), an Italian non-profit dedicated to Magic: The Gathering's Pauper format. Articles, tutorials, decklists, tournament reports, and set spoiler analysis, primarily in Italian with some articles in English.
 
 Built with Nuxt 4 + Nuxt Content, with a custom content pipeline that turns `[[Card Name]]` mentions into hoverable card-art tooltips and plain-text decklists into structured, styled decklist components.
 

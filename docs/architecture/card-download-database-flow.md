@@ -62,7 +62,7 @@ Il componente riceve dati **già risolti** (mana cost, immagine) direttamente ne
 ```
 Scryfall API → download-bulk-data.ts → oracle-cards.jsonl (gitignored, gunzipped on the fly)
                                     ↓
-                              cards.db (~2 MB, solo Pauper-legal, gitignored)
+                              cards.db (~2 MB, solo Pauper-legal, committato in git)
                                     ↓
                      card-database.ts (getCardByName / getCardsByNames)
                                     ↓

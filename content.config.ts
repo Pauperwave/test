@@ -21,6 +21,7 @@ const baseContentSchema = z.object({
   date: z.string(),
   description: z.string(),
   tags: z.optional(z.array(z.string())).default([]),
+  language: z.enum(['italiano', 'english']).default('italiano'),
   decks: z.optional(z.array(z.string())).default([]),
   location: z.optional(z.string()).default(''),
   // Supports single author (string) or multiple authors (array of strings)

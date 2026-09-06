@@ -11,9 +11,9 @@ Obiettivo: coprire i costi di hosting/mantenimento, target indicativo ~20€/mes
 
 Da decidere: quale delle due (o entrambe), dove posizionarle nel layout, e se serve una pagina `/supporta` o basta un widget nel footer. Non ancora promosso a `BACKLOG.md` — manca una decisione su quale strada seguire prima che sia un item implementabile.
 
-## Show the back face of double-faced cards
+## Show the back face of double-faced cards on desktop
 
-`magic-card-tooltip` (and by extension `[[Card Name]]` inline references) currently can't show the second face of a double-faced card — only the front face is ever displayed. Already flagged inline in `content/docs/componenti.md` ("Alcuni casi limite"), tracked here so it doesn't only live as a caution note.
+`magic-card-tooltip` (and by extension `[[Card Name]]` inline references) currently can't show the second face of a double-faced card on desktop — the `UTooltip` there is front-face-only. Mobile already has a working flip button in the fullscreen modal (see `app/components/magic/card/Tooltip.vue`). Already flagged inline in `content/docs/componenti.md` ("Alcuni casi limite"), tracked here so it doesn't only live as a caution note.
 
 ## Verify `hand` layout against a live magic.wizards.com session
 

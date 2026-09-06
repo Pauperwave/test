@@ -5,9 +5,15 @@ on:
   schedule:
     # Primo giorno di ogni mese alle 3:00 AM UTC
     - cron: '0 3 1 * *'
-  
+
   # Permette esecuzione manuale dal tab Actions
   workflow_dispatch:
+
+# Il GITHUB_TOKEN di default ha solo permessi di lettura sui contenuti del
+# repo: senza questo, il push finale fallisce con 403 anche se checkout e
+# commit vanno a buon fine.
+permissions:
+  contents: write
 
 jobs:
   update-database:
@@ -15,15 +21,15 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.15.0'
           cache: 'pnpm'

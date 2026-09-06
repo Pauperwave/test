@@ -8,6 +8,7 @@ import { createRegExp, digit, whitespace, oneOrMore, char } from 'magic-regexp'
 import { getCardsByNames } from '#server/utils/card-database'
 import type { ParsedCard } from '#shared/types'
 import { buildLog } from '#shared/utils'
+import { getFencedRanges, isInsideFence } from './card-tooltip-transformer'
 
 export default defineNuxtModule({
   meta: {
@@ -47,6 +48,7 @@ export default defineNuxtModule({
 
 async function transformSideboardGuideBlocks(content: string, filePath: string): Promise<string> {
   const blockWithFrontmatter = /::(MagicSideboardGuide|magic-sideboard-guide)\s*\n---\n([\s\S]*?)\n---\n([\s\S]*?)::/gi
+  const fencedRanges = getFencedRanges(content)
 
   const matches: Array<{
     match: string,
@@ -59,6 +61,7 @@ async function transformSideboardGuideBlocks(content: string, filePath: string):
   let match
   while ((match = blockWithFrontmatter.exec(content)) !== null) {
     if (!match[1] || !match[2] || !match[3]) continue
+    if (isInsideFence(match.index, fencedRanges)) continue
 
     matches.push({
       match: match[0],

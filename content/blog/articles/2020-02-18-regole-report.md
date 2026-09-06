@@ -1,24 +1,20 @@
 ---
 title: "Regole di Buon Senso per i Report"
-description: ""
+description: "Le regole di buon senso da seguire per scrivere un report di torneo per Pauperwave: struttura consigliata, tempistiche di consegna e piccoli accorgimenti di stile."
 tags:
   - Meta
 date: 2020-02-18
 author: Pietro Bragioto
-thumbnail: /assets/blog/arts/m20-35-rule-of-law.jpg
+thumbnail: /arts/m20-35-rule-of-law.jpg
 published: true
 ---
 
-# Introduzione
+## Introduzione
 
-All' inizio di Pauperwave e con i primi report che ci arrivarono, mi chiesi se fosse il caso di lasciare 4 o 5 linee guida da seguire per le bozze di questi ultimi, ma l'idea mi sembrò subito da scartare perchè non volevo apparire come la “maestrina” di turno e pensai che non mi sarebbe costato nulla correggere quelle sviste quà e là.
-In poche parole pensai che il gioco non valesse la candela.
-Un annetto dopo mi ritrovo a scrivere questo articolo.
-Com'è ironica la sorte.
+Questa guida raccoglie le regole da seguire per scrivere un report di torneo per Pauperwave: come strutturare i turni, entro quando consegnare il pezzo e come usare correttamente i componenti di gioco (decklist, sideboard, immagini) nel testo.
+Seguitele fin dalla prima bozza: velocizza la revisione e accorcia i tempi tra la fine del torneo e la pubblicazione.
 
-Scherzi a parte, la revisione di alcuni report mi ha davvero provato fisicamente, per questo penso sia necessario dare a coloro che ci invieranno le bozze delle loro imprese qualche regola pratica di base da seguire.
-
-# Le 3 regole d'oro
+## Le 3 regole d'oro
 
 ::MagicCardArtCrop
 ---
@@ -29,15 +25,44 @@ crop:
 ---
 ::
 
-1. **Disattivate il "Caps Lock"**: Evitate espressioni tutte in maiuscolo se queste non sono sigle come “UR” oppure “OTP”.
-2. **Lasciate le parentesi agli informatici**: In grammatica esistono le virgole per sostituire le parentesi che utilizzate raramente sono accettabili, ma ad ogni farse diventano pesanti.
+1. **Disattivate il "Caps Lock"**: Evitate espressioni tutte in maiuscolo se queste non sono sigle come "UR" oppure "OTP".
+2. **Lasciate le parentesi agli informatici**: In grammatica esistono le virgole per sostituire le parentesi che utilizzate raramente sono accettabili, ma ad ogni frase diventano pesanti.
 3. **Maiuscole per i nomi propri**: I nomi delle carte sono nomi propri, quindi scriveteli con la maiuscola.
 
-Inoltre vige la <u>**regola aurea di consegnare il report non oltre 10 giorni dall'evento**</u>: pubblicare un report settimane dopo un evento perde di significato e di interesse, inoltre vorrei essere in grado di pubblicare tutti i report nel range di due settimane dall'evento anche nel caso peggiore ossia che la gran parte dei report mi arrivi all'ultimo, caso tra l'altro molto frequente.
+Inoltre vige la <u>**regola aurea di consegnare il report non oltre 10 giorni dall'evento**</u>: un report pubblicato settimane dopo un evento perde di significato e di interesse. Consegnare in tempo permette di pubblicare tutti i report entro due settimane dall'evento anche nel caso peggiore, ossia quando la maggior parte arriva all'ultimo momento — lo scenario più frequente.
 
 Dulcis in fundo, se avete qualche bella foto da voler pubblicare nel vostro report mandatela senza problemi e comunicate anche se prediligete qualche immagine copertina in particolare come, ad esempio, l'art di una carta emblematica del vostro evento.
 
 ## Convenzioni
+
+Prima del racconto dei turni, aprite il report con la decklist giocata usando il blocco `::magic-decklist`:
+
+```
+::magic-decklist
+---
+name: Mono Blue Control
+player: Alessandro Moretti
+description: Decklist vincente al Paupergeddon Lucca Winter 2025
+placement: 1° posto
+---
+Creatures
+2 Murmuring Mystic
+4 Cryptic Serpent
+
+Instants
+4 Brainstorm
+4 Counterspell
+
+Lands
+16 Island
+
+Sideboard
+4 Hydroblast
+2 Blue Elemental Blast
+::
+```
+
+`name`, `player`, `description` e `placement` vanno nel frontmatter del blocco; il corpo elenca le carte una per riga nel formato `quantità nome carta`, raggruppate per sezione (`Creatures`, `Instants`, `Sorceries`, `Artifacts`, `Lands`, `Sideboard`, ...). Il risultato è una card con intestazione (nome mazzo, piazzamento, giocatore), le sezioni della lista con conteggio e costo di mana per carta, e la sideboard separata in fondo.
 
 Per raccontare un turno, suggerisco vivamente — anzi, raccomando fortemente — di seguire la seguente struttura:
 
@@ -66,8 +91,19 @@ Conosco l'oppo ed è la decima volta che ci troviamo a turno 1 in un qualsivogli
 
 ### Sideboard
 
-In: ([...])
-Out: ([...])
+::magic-sideboard-guide
+---
+matchup: Mono R Madness
+description: 
+---
+#in
+4 Blue Elemental Blast
+1 Hydroblast
+2 Dispel
+#out
+4 The Modern Age // Vector Glider
+3 Thraben Charm
+::
 
 (Eventuale spiegazione della sidata)
 
@@ -87,7 +123,11 @@ Out: ([...])
 [...]
 ```
 
-Potete vedere il risultato della pubblicazione di un report che segue queste regole in questo [report di Paupergeddon Lucca Winter 2025](/articles/2025-12-09-edoardo-bardi-paupergeddon-lucca-winter-2025).
+Il blocco `::magic-sideboard-guide` va nella sezione "Sideboard": la riga `matchup` indica l'avversario o l'archetipo affrontato, `#in` e `#out` elencano le carte in entrata e in uscita nel formato `quantità nome carta` (una carta per riga). Se esiste un piano alternativo, aggiungete una terza sezione `#out-alt` con le carte da togliere in quel caso.
+
+Il risultato è una card con due colonne affiancate, "Sideboard In" e "Sideboard Out", ciascuna con il conteggio totale delle carte tra parentesi nell'intestazione; ogni carta mostra quantità, nome (con tooltip al passaggio del mouse) e costo di mana. Se è presente `#out-alt`, compare sotto "Sideboard Out" separata da un divisore con l'etichetta "Alternativa".
+
+Prendete come riferimento questo [report di Paupergeddon Lucca Winter 2025](/articles/2025-12-09-edoardo-bardi-paupergeddon-lucca-winter-2025) e seguite questo formato.
 
 ## Conclusioni
 
@@ -100,8 +140,5 @@ crop:
 ---
 ::
 
-L'articolo è _volutamente_ scarno ed essenziale in modo da essere veloce da leggere per chiunque volesse mandarci un report di un torneo in futuro, sarebbe davvero di grande aiuto per noi della redazione se seguiste queste poche regole di buon senso e la convenzione su come scrivere un turno.
-
-Anch'io all'inizio pensavo di non dover dare regole e di correggere le piccolezze in pochi minuti, pure io pensavo che questo genere di guida fosse eccessiva e leggermente meme.
-
-Sbagliavo.
+Questa guida è _volutamente_ scarna ed essenziale, in modo da essere veloce da leggere e da consultare ogni volta che scrivete un report.
+Seguire queste regole e la convenzione sulla struttura dei turni velocizza la revisione da parte della redazione e accorcia i tempi di pubblicazione: prima arriva un report conforme, prima esce.

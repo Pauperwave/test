@@ -61,15 +61,15 @@ async function copyDecklist() {
   try {
     await navigator.clipboard.writeText(decklistText)
     toast.add({
-      title: 'Copied!',
-      description: 'Decklist copied to clipboard',
+      title: 'Copiato!',
+      description: 'Decklist copiata negli appunti',
       icon: 'i-lucide-check',
       color: 'success'
     })
   } catch {
     toast.add({
-      title: 'Failed to copy',
-      description: 'Could not copy decklist to clipboard',
+      title: 'Copia non riuscita',
+      description: 'Impossibile copiare la decklist negli appunti',
       icon: 'i-lucide-x',
       color: 'error'
     })

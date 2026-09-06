@@ -1,6 +1,7 @@
 ---
 title: "4 Questions with Walker"
 description: "Showcase Qualifier Winner"
+language: english
 tags:
   - Meta
 date: 2026-07-29

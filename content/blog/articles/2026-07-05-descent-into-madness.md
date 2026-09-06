@@ -4,6 +4,7 @@ author: Paolo Donfrancesco
 category: article
 date: 2026-07-05
 description: Commento al Ban di Seeker
+language: english
 location: ""
 published: true
 sitemap:

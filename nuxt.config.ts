@@ -24,6 +24,29 @@ const getAuthorSlugsAtBuildTime = (): string[] => {
     .map(name => name.toLowerCase().replace(/\s+/g, "-"))
 }
 
+/**
+ * True for /articles/YYYY-MM-DD-... routes older than 3 months.
+ *
+ * Used by both prerender hooks below: `prerender:routes` removes old articles
+ * from the initial crawl seed, but Nitro's crawler re-adds any route it finds
+ * a link to (e.g. from an author page or "related articles" widget) via its
+ * own `extractLinks` pass, which runs *after* `prerender:routes` and knows
+ * nothing about this cutoff — so old articles kept reappearing in the final
+ * build regardless of the seed-time filter. `prerender:generate` re-applies
+ * this check per-route as each one is actually about to render, catching
+ * routes rediscovered by the crawler too. Skipping there also happens before
+ * Nitro extracts links from the page, so it prevents that stale article's own
+ * OG image (and further links) from being discovered and rendered as well.
+ */
+const isOldArticleRoute = (route: string): boolean => {
+  const match = route.match(/^\/articles\/(\d{4}-\d{2}-\d{2})/)
+  if (!match || !match[1]) return false
+
+  const threeMonthsAgo = new Date()
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+  return new Date(match[1]) < threeMonthsAgo
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -73,6 +96,11 @@ export default defineNuxtConfig({
   ogImage: {
     zeroRuntime: true,
     buildCache: true,
+    // Manual escape hatch: buildCache's key hashes the .takumi.vue template
+    // file and og:image props, but NOT global CSS/UnoCSS or font config — a
+    // design-only change there wouldn't bust the cache on its own. Bump this
+    // string after such a change to force a full re-render.
+    cacheVersion: 'v1',
     security: {
       // Default 15s is shorter than the takumi prerender worker's own internal 30s
       // timeout (nuxt-og-image's node-dev binding spawns a real Node worker_threads
@@ -112,7 +140,6 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "nuxt-studio",
     "@nuxt/eslint",
     "@nuxt/image",
     "@nuxt/ui",
@@ -157,22 +184,6 @@ export default defineNuxtConfig({
     "~/assets/css/main.css",
     "katex/dist/katex.min.css",
   ],
-  studio: {
-    // Studio admin route (default: '/_studio')
-    route: '/editor',
-
-    // Git repository configuration
-    repository: {
-      provider: 'github',
-      owner: 'Pauperwave',
-      repo: 'blog',
-      branch: 'main',
-      private: true,
-    },
-    i18n: {
-      defaultLocale: 'it'
-    }
-  },
   // Disable payload extraction to prevent _payload.json 404 errors on Vercel
   vite: {
     css: {
@@ -235,23 +246,20 @@ export default defineNuxtConfig({
     // getAuthorSlugsAtBuildTime above).
     hooks: {
       'prerender:routes' (routes: Set<string>) {
-        const threeMonthsAgo = new Date()
-        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-
         for (const route of routes) {
-          if (!route.startsWith('/articles/')) continue
-
-          // Extract date from article path: /articles/2026-01-15-title
-          const match = route.match(/\/articles\/(\d{4}-\d{2}-\d{2})/)
-          if (match && match[1] && new Date(match[1]) < threeMonthsAgo) {
-            routes.delete(route)
-          }
+          if (isOldArticleRoute(route)) routes.delete(route)
         }
 
         routes.add('/authors')
         for (const slug of getAuthorSlugsAtBuildTime()) {
           routes.add(`/authors/${slug}`)
         }
+      },
+      // Catches old articles the crawler re-adds via extractLinks after the
+      // 'prerender:routes' seed-time filter above already ran — see
+      // isOldArticleRoute's own comment for why both hooks are needed.
+      'prerender:generate' (route) {
+        if (isOldArticleRoute(route.route)) route.skip = true
       }
     }
   },
@@ -272,9 +280,6 @@ export default defineNuxtConfig({
     '/articles/0000-00-00-chart-demo-template': { prerender: false },
     '/reports/0000-00-00-report-template': { prerender: false },
     '/spoilers/0000-00-00-spoiler-template': { prerender: false },
-    // Nuxt Studio admin - requires SSR
-    '/editor': { ssr: true },
-    '/editor/**': { ssr: true },
     // Code of Conduct and Statuto
     '/docs/**': { prerender: true, headers: { 'Cache-Control': 'public, max-age=3600, s-maxage=86400' } },
     // Author profile pages: prerendered explicitly (see the prerender:routes hook above),

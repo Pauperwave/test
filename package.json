@@ -6,7 +6,6 @@
   "scripts": {
     "download-cards": "node scripts/download-bulk-data.ts",
     "build": "nuxt build",
-    "update-cards": "pnpm run download-cards",
     "dev": "nuxt dev",
     "dev:clean": "rm -rf .nuxt .data && nuxt dev",
     "clean": "nuxt cleanup",
@@ -21,6 +20,7 @@
     "typecheck": "nuxt typecheck",
     "bench:filters": "node scripts/benchmark-article-filters.ts",
     "decklists:add-gradients": "node scripts/add-header-gradients.ts",
+    "fix-apostrophe": "node scripts/fix-apostrophe.mjs",
     "decklists:verify-gradients": "node scripts/verify-header-gradients.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -48,7 +48,6 @@
     "nuxt": "^4.5.1",
     "nuxt-echarts": "1.0.1",
     "nuxt-schema-org": "^6.0.4",
-    "nuxt-studio": "1.7.0",
     "nuxt-swiper": "2.0.2",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",

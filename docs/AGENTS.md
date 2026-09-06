@@ -5,7 +5,7 @@ Quick reference guide for AI agents working on this project.
 ## Technology Stack
 - **Package manager:** pnpm
 - **Runtime:** Node (standalone scripts run via `node`, no transpiler needed)
-- **Framework:** Nuxt 4 (SSG mode)
+- **Framework:** Nuxt 4 (hybrid prerendering via `nitro.preset: 'vercel'` — only `/`, `/articles`, `/docs/**` and recent articles (last 3 months) are prerendered; older articles and `/editor*` are server-rendered on demand)
 - **UI:** Vue 3 + Nuxt UI 4
 - **Styling:** Tailwind CSS
 - **Language:** TypeScript (strict mode)
@@ -51,16 +51,19 @@ app/
 ├── utils/         # Pure utility functions (colocated tests)
 └── constants/     # App constants
 
-content/blog/      # MDC content collections
-├── articles/      # Blog articles
-├── tutorials/     # How-to guides
-├── decklists/     # MTG decklists
-├── reports/       # Tournament reports
-└── spoilers/      # Set spoilers
+content/
+├── authors/       # Author data (type: data, YAML)
+├── docs/          # Published docs pages (e.g. /componenti)
+└── blog/          # MDC content collections
+    ├── articles/  # Blog articles
+    ├── tutorials/ # How-to guides
+    ├── decklists/ # MTG decklists
+    ├── reports/   # Tournament reports
+    └── spoilers/  # Set spoilers
 
 server/
-├── api/          # API endpoints
-└── utils/        # Server-side utilities
+└── utils/        # Server-side utilities (no API routes — card lookups
+                   # happen at build time via the content-transformer modules)
 ```
 
 ## Design Principles

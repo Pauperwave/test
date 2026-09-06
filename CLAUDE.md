@@ -69,6 +69,4 @@ All six chart components (`BarChart`, `ConfidenceBandChart`, `LineChart`, `PieCh
 - `docs/audits/` — one-off investigation/postmortem reports (e.g. build performance).
 - `docs/TODO.md`, `docs/BACKLOG.md`, `docs/PROGRESS.md` have distinct roles — see `docs/README.md`: `TODO.md` is scratch/not-yet-committed, `BACKLOG.md` is ranked/committed work, `PROGRESS.md` is curated backward-looking history (ADRs).
 
-Known drift in those docs, don't trust blindly:
-- `docs/DEVELOPMENT.md` references a `server/api/cards.get.ts` endpoint; `server/api/` is currently empty. Card lookups happen at build time inside the content-transformer modules, not via a runtime API route.
-- `docs/CONTENT.md`'s `published` field guide has a copy-paste error (both example snippets show `published: true`) — the schema default is `false`; set it to `true` explicitly to publish.
+No known drift in those docs as of 2026-09-01 (last audited then) — both previously-stale points (a fictional `server/api/cards.get.ts` endpoint, and a `published` field copy-paste error) have been fixed in `docs/DEVELOPMENT.md` and `docs/CONTENT.md`. Still worth spot-checking before trusting blindly, since drift creeps back in.

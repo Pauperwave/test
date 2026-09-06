@@ -235,28 +235,25 @@ formatDateWithMonthIT('2025-01-17')  // '17 gen 2025'
 
 ### Card Database (SQLite)
 
-**Location:** `cards.db` (gitignored)  
+**Location:** `server/database/cards.db` (committed to git; only the intermediate `server/database/oracle-cards.jsonl` bulk-data dump is gitignored)  
 **Source:** Scryfall bulk data API  
-**Size:** ~2MB (not committed to repo)
+**Size:** ~2MB
 
 #### Setup
 
 ```bash
-# Download card data (runs automatically on build)
+# Regenerate the database from the latest Scryfall bulk data
 pnpm run download-cards
 ```
 
 #### Usage
 
-```typescript
-// server/api/cards.get.ts
-import { searchCards } from '~/server/utils/card-database'
+There's no runtime API route for it — `server/api/` is empty. Lookups happen at **build time**, inside the content-transformer modules (`modules/card-tooltip-transformer.ts`, `modules/decklist-transformer.ts`), which call into `server/utils/card-database.ts` directly:
 
-export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
-  const results = await searchCards(query.q as string)
-  return results
-})
+```typescript
+import { getCardByName } from '~/server/utils/card-database'
+
+const card = await getCardByName('Lightning Bolt')
 ```
 
 #### Schema

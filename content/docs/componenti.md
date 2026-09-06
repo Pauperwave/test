@@ -779,6 +779,20 @@ matchup: Mono Red Rally
 ::
 ```
 
+::magic-sideboard-guide
+---
+description: Descrizione breve delle scelte di side
+matchup: Mono Red Rally
+---
+#in
+3 Cast into the Fire
+#out
+3 Thermo-Alchemist
+#out-alt
+1 Thermo-Alchemist
+2 Great Furnace
+::
+
 ## Mostrare una decklist
 
 ::note
@@ -823,6 +837,43 @@ Sideboard
 1 Tangled Islet
 ::
 ```
+
+::magic-decklist
+---
+name: Elves
+player: Lahiri Cristofori
+placement: Winner
+headerGradient: monowhite
+---
+Creatures
+4 Delver of Secrets
+4 Elvish Mystic
+4 Sagu Wildling // Roost Seek
+4 The Modern Age
+4 Masked Vandal
+4 Priest of Titania
+4 Timberwatch Elf
+4 Avenging Hunter
+3 Sagu Wildling // Roost Seek
+4 Generous Ent
+
+Sorceries
+4 Land Grant
+4 Winding Way
+4 Lead the Stampede
+
+Lands
+1 Gingerbread Cabin
+8 Forest
+
+Sideboard
+4 Spinewoods Paladin
+3 Faerie Macabre
+3 Hydroblast
+3 Monstrous Emergence
+1 Island
+1 Tangled Islet
+::
 
 ### Gradienti per le decklist
 
